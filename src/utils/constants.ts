@@ -1,0 +1,1 @@
+export const API_BASE = "https://mockapi.io/projects/demo-flight-booking/api/v1";

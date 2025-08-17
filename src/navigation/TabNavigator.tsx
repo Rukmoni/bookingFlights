@@ -1,6 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { Text, View } from 'react-native';
+import LoginScreen from "../screens/Auth/LoginScreen";
+import FlightListScreen from '../screens/Flights/FlightListScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,6 +27,8 @@ export default function TabNavigator() {
     <Tab.Navigator>
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Bookings" component={BookingsScreen} />
+      <Tab.Screen name="Login" component={LoginScreen} />
+      <Tab.Screen name="Flights" component={FlightListScreen} />
     </Tab.Navigator>
   );
 }

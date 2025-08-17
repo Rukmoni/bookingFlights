@@ -1,15 +1,16 @@
-import React from "react";
-import { SafeAreaView, StyleSheet, Text } from "react-native";
-
+import { StyleSheet } from "react-native";
+import App from "./src/App";
 import { colors } from "./src/theme";
+export default App;
 
-export default function App() {
+/* export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-  <Text> Welcome !</Text>
+      <AppText variant="heading">Welcome to Phase 3 🎯</AppText>
+      <AppButton title="Click me" onPress={() => alert("Hello!")} />
     </SafeAreaView>
   );
-}
+} */
 
 const styles = StyleSheet.create({
   container: {
