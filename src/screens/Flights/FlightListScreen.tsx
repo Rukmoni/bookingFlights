@@ -1,51 +1,59 @@
-import React from "react";
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
-import { useFlights } from "../../api/hooks/useFlights";
-import ErrorMessage from "../../components/ErrorMessage";
-import Loader from "../../components/Loader";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { addFlight } from "../../store/slices/cartSlice";
+import { useQuery } from "@tanstack/react-query";
+import React, { useState } from "react";
+import { Button, FlatList, StyleSheet, Text, TextInput, View } from "react-native";
+import { fetchFlights } from "../../api/services/flightService"; // Adjust the import path as necessary
+import FlightCard from "../../components/ui/FlightCard"; // Adjust the import path as necessary
 
-export default function FlightListScreen() {
-  const { data, isLoading, error } = useFlights();
-  const dispatch = useAppDispatch();
-  const themeMode = useAppSelector((s) => s.theme.mode);
+export default function FlightListing() {
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
 
-  if (isLoading) return <Loader />;
-  if (error) return <ErrorMessage message="Failed to load flights." />;
-
-  console.log("rupa Flight List Screen Rendered", data);
+  const { data: flights, isLoading, refetch } = useQuery({
+    queryKey: ["flights", { from, to }],
+    queryFn: () => fetchFlights({ from, to }),
+    enabled: false, // fetch only on button press
+  });
 
   return (
-    <View
-      style={{
-        flex: 1,
-        padding: 16,
-        backgroundColor: themeMode === "dark" ? "#000" : "#fff",
-      }}
-    >
+    <View style={styles.container}>
+      <Text style={styles.header}>Search Flights</Text>
+
+      <TextInput
+        style={styles.input}
+        placeholder="From (e.g., KUL)"
+        value={from}
+        onChangeText={setFrom}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="To (e.g., PEN)"
+        value={to}
+        onChangeText={setTo}
+      />
+
+      <Button title="Search" onPress={() => refetch()} />
+
+      {isLoading && <Text>Loading flights...</Text>}
+
       <FlatList
-        data={data || []}
+        data={flights || []}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => dispatch(addFlight(item))}
-            style={{
-              padding: 12,
-              marginBottom: 12,
-              borderRadius: 8,
-              borderWidth: 1,
-              borderColor: "#ddd",
-            }}
-          >
-            <Text style={{ fontWeight: "600" }}>
-              {item.from} → {item.to}
-            </Text>
-            <Text>{item.airline}</Text>
-            <Text>${item.price}</Text>
-          </TouchableOpacity>
-        )}
+        renderItem={({ item }) => <FlightCard flight={item} />}
+        ListEmptyComponent={<Text>No flights found.</Text>}
       />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 16, backgroundColor: "#f9f9f9" },
+  header: { fontSize: 20, fontWeight: "bold", marginBottom: 16 },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 8,
+    backgroundColor: "#fff",
+  },
+});

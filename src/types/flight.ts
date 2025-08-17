@@ -1,11 +1,11 @@
 export interface Flight {
     id: string;
     airline: string;
-    flightNumber: string;
-    origin: string;
-    destination: string;
-    departureTime: string; // ISO string
-    arrivalTime: string;   // ISO string
+    flightNumber?: string;
+    from: string;
+    to: string;
+    departure: string; // ISO string
+    arrival: string;   // ISO string
     price: number;
     currency: string;
   }

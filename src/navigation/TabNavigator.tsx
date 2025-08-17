@@ -25,10 +25,11 @@ function BookingsScreen() {
 export default function TabNavigator() {
   return (
     <Tab.Navigator>
+       <Tab.Screen name="Flights" component={FlightListScreen} />
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Bookings" component={BookingsScreen} />
       <Tab.Screen name="Login" component={LoginScreen} />
-      <Tab.Screen name="Flights" component={FlightListScreen} />
+     
     </Tab.Navigator>
   );
 }

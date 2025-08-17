@@ -14,13 +14,13 @@ export function useFlights() {
   });
 }
 
-export function useFlight(id: string) {
+/* export function useFlight(id: string) {
   return useQuery<Flight>({
     queryKey: flightsKeys.detail(id),
     queryFn: () => flightService.getFlightById(id),
     enabled: !!id,
   });
-}
+} */
 
 // Example mutation pattern (not used yet)
 export function useRefetchFlightsOnSomeMutation() {
